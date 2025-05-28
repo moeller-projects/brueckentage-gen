@@ -1,0 +1,24 @@
+name: Publish Script to PSGallary
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    name: PSScriptAnalyzer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish Script to PSGallary
+        run: Publish-Script -Path brueckentage-gen.ps1 -NuGetApiKey ${{ secrets.PSGALLERY }}
+        shell: pwsh
