@@ -119,6 +119,16 @@ for ($d = 1; $d -le $daysInYear; $d++) {
             } else {
                 -1
             }
+
+            # Prioritize blocks starting or ending with a free day and having more free days than half the range
+            $startsWithFreeDay = Is-FreeDay -dayIndex $block.First -holidayMap $holidayMap -vacationSet $vacationSet
+            $endsWithFreeDay = Is-FreeDay -dayIndex $block.Last -holidayMap $holidayMap -vacationSet $vacationSet
+            $moreThanHalfFree = $block.TotalDays / 2 -lt $daysAlreadyFree
+
+            if (($startsWithFreeDay -or $endsWithFreeDay) -and $moreThanHalfFree) {
+                $score += 1 # Boost score for priority
+            }
+
             $results += [PSCustomObject]@{
                 Start = $startDate
                 End = $endDate
