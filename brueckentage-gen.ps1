@@ -41,8 +41,8 @@ function Is-FreeDay {
     param ($dayIndex, $holidayMap, $vacationSet)
     $date = (Get-Date -Year $Year -Month 1 -Day 1).AddDays($dayIndex - 1)
     return ($WeekendDays -contains [int]$date.DayOfWeek) -or
-           ($holidayMap.ContainsKey($dayIndex)) -or
-           ($vacationSet.Contains($date.ToString("yyyy-MM-dd")))
+            ($holidayMap.ContainsKey($dayIndex)) -or
+            ($vacationSet.Contains($date.ToString("yyyy-MM-dd")))
 }
 
 function Get-FreeBlock {
@@ -130,4 +130,10 @@ for ($d = 1; $d -le $daysInYear; $d++) {
     }
 }
 
-$results | Where-Object { $_.Score -ge 1.8 } | Sort-Object -Property Score -Descending | Format-Table -AutoSize
+$results |
+        Group-Object { (Get-Date $_.Start).Month } |
+        ForEach-Object {
+            $monthName = (Get-Culture).DateTimeFormat.GetMonthName($_.Name)
+            Write-Output "# $($monthName):"
+            $_.Group | Where-Object { $_.Score -ge 1.8 } | Sort-Object -Property Score -Descending | Select-Object -First 5 | Format-Table -AutoSize
+        }
