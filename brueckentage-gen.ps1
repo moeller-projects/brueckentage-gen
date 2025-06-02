@@ -1,4 +1,42 @@
-param (
+
+<#PSScriptInfo
+
+.VERSION 1.0
+
+.GUID 61c8cca7-5460-47b4-b1f3-6ffb2b5afc1e
+
+.AUTHOR Lukas Möller
+
+.COMPANYNAME
+
+.COPYRIGHT
+
+.TAGS brueckentage
+
+.LICENSEURI
+
+.PROJECTURI
+
+.ICONURI
+
+.EXTERNALMODULEDEPENDENCIES
+
+.REQUIREDSCRIPTS
+
+.EXTERNALSCRIPTDEPENDENCIES
+
+.RELEASENOTES
+
+.PRIVATEDATA
+
+#>
+
+<#
+
+.DESCRIPTION
+This PowerShell script calculates potential "bridge days" (Brueckentage) for a given year and state in Germany. Bridge days are workdays that can be taken off to create a longer holiday period by combining weekends and public holidays.
+#>
+Param(
     [Parameter(Mandatory = $true)]
     [int]$Year,
 
